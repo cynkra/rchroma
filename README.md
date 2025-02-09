@@ -1,6 +1,8 @@
 
 # rchroma
 
+[![R-CMD-check](https://github.com/cynkra/rchroma/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cynkra/rchroma/actions/workflows/R-CMD-check.yaml)
+
 An R client for ChromaDB, a modern vector database for storing and
 querying embeddings.
 
@@ -10,7 +12,7 @@ You can install the development version of rchroma from GitHub:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("christophsax/rchroma")
+remotes::install_github("cynkra/rchroma")
 ```
 
 ## Usage

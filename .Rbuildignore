@@ -1,0 +1,7 @@
+^\.Rbuildignore$
+^\.git$
+^\.github$
+^\.gitignore$
+^LICENSE\.md$
+^README\.Rmd$
+^README\.html$
