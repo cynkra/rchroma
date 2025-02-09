@@ -1,0 +1,18 @@
+Package: rchroma
+Title: R Client for ChromaDB
+Version: 0.1.0
+Authors@R:
+    person("Christoph", "Sax", , "christoph.sax@gmail.com", role = c("aut", "cre"))
+Description: An R client for ChromaDB, a vector database for storing and querying
+    embeddings. This package provides a convenient interface to interact with
+    ChromaDB's REST API.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports:
+    httr2,
+    jsonlite
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
