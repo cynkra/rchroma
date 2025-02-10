@@ -1,0 +1,28 @@
+handle_chroma_error <- function(e, action) {
+  if (inherits(e, "httr2_error")) {
+    err_body <- tryCatch(
+      {
+        httr2::resp_body_json(e$resp)
+      },
+      error = function(e2) {
+        list(error = "UnknownError", message = httr2::resp_body_string(e$resp))
+      }
+    )
+
+    if (!is.null(err_body$error) && !is.null(err_body$message)) {
+      stop(paste0(err_body$error, ": ", err_body$message), call. = FALSE)
+    } else if (!is.null(err_body$detail)) {
+      if (is.list(err_body$detail) && length(err_body$detail) > 0) {
+        # Extract type and message from first detail entry
+        detail <- err_body$detail[[1]]
+        stop(paste0(detail$type, ": ", detail$msg), call. = FALSE)
+      } else {
+        stop(err_body$detail, call. = FALSE)
+      }
+    } else {
+      stop(httr2::resp_body_string(e$resp), call. = FALSE)
+    }
+  } else {
+    stop(e$message, call. = FALSE)
+  }
+}

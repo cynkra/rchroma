@@ -1,179 +1,179 @@
-#' Add Documents to a Collection
-#'
-#' @param client A ChromaDB client object
-#' @param collection_name Name of the collection
-#' @param documents List of documents to add
-#' @param ids Vector of unique IDs for the documents (required)
-#' @param metadatas List of metadata for each document (optional)
-#' @param embeddings Optional pre-computed embeddings
-#' @param uris Optional vector of URIs associated with the documents
-#' @param tenant The tenant name (default: "default")
-#' @param database The database name (default: "default")
-#'
-#' @return TRUE on success
-#' @export
-add_documents <- function(client, collection_name, documents, ids,
-                         metadatas = NULL, embeddings = NULL, uris = NULL,
-                         tenant = "default", database = "default") {
-  # First get the collection to get its ID
-  collection <- get_collection(client, collection_name, tenant = tenant, database = database)
+# #' Add Documents to a Collection
+# #'
+# #' @param client A ChromaDB client object
+# #' @param collection_name Name of the collection
+# #' @param documents List of documents to add
+# #' @param ids Vector of unique IDs for the documents (required)
+# #' @param metadatas List of metadata for each document (optional)
+# #' @param embeddings Optional pre-computed embeddings
+# #' @param uris Optional vector of URIs associated with the documents
+# #' @param tenant The tenant name (default: "default")
+# #' @param database The database name (default: "default")
+# #'
+# #' @return TRUE on success
+# #' @export
+# add_documents <- function(client, collection_name, documents, ids,
+#                          metadatas = NULL, embeddings = NULL, uris = NULL,
+#                          tenant = "default", database = "default") {
+#   # First get the collection to get its ID
+#   collection <- get_collection(client, collection_name, tenant = tenant, database = database)
 
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database,
-                    "/collections/", collection$id, "/add")
+#   endpoint <- paste0("/tenants/", tenant, "/databases/", database,
+#                     "/collections/", collection$id, "/add")
 
-  body <- list(
-    documents = documents,
-    ids = ids
-  )
+#   body <- list(
+#     documents = documents,
+#     ids = ids
+#   )
 
-  if (!is.null(metadatas)) body$metadatas <- metadatas
-  if (!is.null(embeddings)) body$embeddings <- embeddings
-  if (!is.null(uris)) body$uris <- uris
+#   if (!is.null(metadatas)) body$metadatas <- metadatas
+#   if (!is.null(embeddings)) body$embeddings <- embeddings
+#   if (!is.null(uris)) body$uris <- uris
 
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("POST") |>
-      httr2::req_body_json(body) |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to add documents")
-  })
+#   resp <- tryCatch({
+#     client$req |>
+#       httr2::req_url_path_append(endpoint) |>
+#       httr2::req_method("POST") |>
+#       httr2::req_body_json(body) |>
+#       httr2::req_perform()
+#   }, error = function(e) {
+#     handle_chroma_error(e, "Failed to add documents")
+#   })
 
-  httr2::resp_body_json(resp)
-}
+#   httr2::resp_body_json(resp)
+# }
 
-#' Update Documents in a Collection
-#'
-#' @param client A ChromaDB client object
-#' @param collection_name Name of the collection
-#' @param ids Vector of document IDs to update
-#' @param documents List of new document contents
-#' @param metadatas List of new metadata
-#' @param embeddings Optional new pre-computed embeddings
-#' @param tenant The tenant name (default: "default")
-#' @param database The database name (default: "default")
-#'
-#' @return NULL invisibly on success
-#' @export
-update_documents <- function(client, collection_name, ids, documents = NULL,
-                           metadatas = NULL, embeddings = NULL,
-                           tenant = "default", database = "default") {
-  # First get the collection to get its ID
-  collection <- get_collection(client, collection_name, tenant = tenant, database = database)
+# #' Update Documents in a Collection
+# #'
+# #' @param client A ChromaDB client object
+# #' @param collection_name Name of the collection
+# #' @param ids Vector of document IDs to update
+# #' @param documents List of new document contents
+# #' @param metadatas List of new metadata
+# #' @param embeddings Optional new pre-computed embeddings
+# #' @param tenant The tenant name (default: "default")
+# #' @param database The database name (default: "default")
+# #'
+# #' @return NULL invisibly on success
+# #' @export
+# update_documents <- function(client, collection_name, ids, documents = NULL,
+#                            metadatas = NULL, embeddings = NULL,
+#                            tenant = "default", database = "default") {
+#   # First get the collection to get its ID
+#   collection <- get_collection(client, collection_name, tenant = tenant, database = database)
 
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database,
-                    "/collections/", collection$id, "/update")
+#   endpoint <- paste0("/tenants/", tenant, "/databases/", database,
+#                     "/collections/", collection$id, "/update")
 
-  # Ensure ids is a list
-  if (is.character(ids)) {
-    ids <- as.list(ids)
-  }
+#   # Ensure ids is a list
+#   if (is.character(ids)) {
+#     ids <- as.list(ids)
+#   }
 
-  body <- list(ids = ids)
-  if (!is.null(documents)) body$documents <- documents
-  if (!is.null(metadatas)) body$metadatas <- metadatas
-  if (!is.null(embeddings)) body$embeddings <- embeddings
+#   body <- list(ids = ids)
+#   if (!is.null(documents)) body$documents <- documents
+#   if (!is.null(metadatas)) body$metadatas <- metadatas
+#   if (!is.null(embeddings)) body$embeddings <- embeddings
 
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("POST") |>
-      httr2::req_body_json(body) |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to update documents")
-  })
+#   resp <- tryCatch({
+#     client$req |>
+#       httr2::req_url_path_append(endpoint) |>
+#       httr2::req_method("POST") |>
+#       httr2::req_body_json(body) |>
+#       httr2::req_perform()
+#   }, error = function(e) {
+#     handle_chroma_error(e, "Failed to update documents")
+#   })
 
-  invisible(NULL)
-}
+#   invisible(NULL)
+# }
 
-#' Delete Documents from a Collection
-#'
-#' @param client A ChromaDB client object
-#' @param collection_name Name of the collection
-#' @param ids Vector of document IDs to delete
-#' @param where Optional filtering conditions
-#' @param tenant The tenant name (default: "default")
-#' @param database The database name (default: "default")
-#'
-#' @return NULL invisibly on success
-#' @export
-delete_documents <- function(client, collection_name, ids = NULL, where = NULL,
-                           tenant = "default", database = "default") {
-  # First get the collection to get its ID
-  collection <- get_collection(client, collection_name, tenant = tenant, database = database)
+# #' Delete Documents from a Collection
+# #'
+# #' @param client A ChromaDB client object
+# #' @param collection_name Name of the collection
+# #' @param ids Vector of document IDs to delete
+# #' @param where Optional filtering conditions
+# #' @param tenant The tenant name (default: "default")
+# #' @param database The database name (default: "default")
+# #'
+# #' @return NULL invisibly on success
+# #' @export
+# delete_documents <- function(client, collection_name, ids = NULL, where = NULL,
+#                            tenant = "default", database = "default") {
+#   # First get the collection to get its ID
+#   collection <- get_collection(client, collection_name, tenant = tenant, database = database)
 
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database,
-                    "/collections/", collection$id, "/delete")
+#   endpoint <- paste0("/tenants/", tenant, "/databases/", database,
+#                     "/collections/", collection$id, "/delete")
 
-  body <- list()
-  if (!is.null(ids)) {
-    # Ensure ids is a list
-    if (is.character(ids)) {
-      ids <- as.list(ids)
-    }
-    body$ids <- ids
-  }
-  if (!is.null(where)) body$where <- where
+#   body <- list()
+#   if (!is.null(ids)) {
+#     # Ensure ids is a list
+#     if (is.character(ids)) {
+#       ids <- as.list(ids)
+#     }
+#     body$ids <- ids
+#   }
+#   if (!is.null(where)) body$where <- where
 
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("POST") |>
-      httr2::req_body_json(body) |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to delete documents")
-  })
+#   resp <- tryCatch({
+#     client$req |>
+#       httr2::req_url_path_append(endpoint) |>
+#       httr2::req_method("POST") |>
+#       httr2::req_body_json(body) |>
+#       httr2::req_perform()
+#   }, error = function(e) {
+#     handle_chroma_error(e, "Failed to delete documents")
+#   })
 
-  invisible(NULL)
-}
+#   invisible(NULL)
+# }
 
-#' Upsert Documents to a Collection
-#'
-#' @param client A ChromaDB client object
-#' @param collection_name Name of the collection
-#' @param documents List of documents to upsert
-#' @param metadatas List of metadata for each document
-#' @param ids Vector of unique IDs for the documents
-#' @param embeddings Optional pre-computed embeddings
-#' @param uris Optional vector of URIs associated with the documents
-#'
-#' @return Response from the API
-#' @export
-upsert_documents <- function(client, collection_name, documents, metadatas = NULL,
-                           ids = NULL, embeddings = NULL, uris = NULL) {
-  endpoint <- paste0("/collections/", collection_name, "/upsert")
+# #' Upsert Documents to a Collection
+# #'
+# #' @param client A ChromaDB client object
+# #' @param collection_name Name of the collection
+# #' @param documents List of documents to upsert
+# #' @param metadatas List of metadata for each document
+# #' @param ids Vector of unique IDs for the documents
+# #' @param embeddings Optional pre-computed embeddings
+# #' @param uris Optional vector of URIs associated with the documents
+# #'
+# #' @return Response from the API
+# #' @export
+# upsert_documents <- function(client, collection_name, documents, metadatas = NULL,
+#                            ids = NULL, embeddings = NULL, uris = NULL) {
+#   endpoint <- paste0("/collections/", collection_name, "/upsert")
 
-  if (is.null(ids)) {
-    ids <- paste0("id_", seq_along(documents))
-  }
+#   if (is.null(ids)) {
+#     ids <- paste0("id_", seq_along(documents))
+#   }
 
-  body <- list(
-    documents = documents,
-    ids = ids
-  )
+#   body <- list(
+#     documents = documents,
+#     ids = ids
+#   )
 
-  if (!is.null(metadatas)) body$metadatas <- metadatas
-  if (!is.null(embeddings)) body$embeddings <- embeddings
-  if (!is.null(uris)) body$uris <- uris
+#   if (!is.null(metadatas)) body$metadatas <- metadatas
+#   if (!is.null(embeddings)) body$embeddings <- embeddings
+#   if (!is.null(uris)) body$uris <- uris
 
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("POST") |>
-      httr2::req_body_json(body) |>
-      httr2::req_perform()
-  }, error = function(e) {
-    msg <- paste0(
-      "Failed to upsert documents: ", e$message, "\n\n",
-      "Make sure ChromaDB is running and the collection exists:\n",
-      "docker run -p 8000:8000 chromadb/chroma\n\n",
-      "You can create the collection using create_collection()"
-    )
-    stop(msg)
-  })
+#   resp <- tryCatch({
+#     client$req |>
+#       httr2::req_url_path_append(endpoint) |>
+#       httr2::req_method("POST") |>
+#       httr2::req_body_json(body) |>
+#       httr2::req_perform()
+#   }, error = function(e) {
+#     msg <- paste0(
+#       "Failed to upsert documents: ", e$message, "\n\n",
+#       "Make sure ChromaDB is running and the collection exists:\n",
+#       "docker run -p 8000:8000 chromadb/chroma\n\n",
+#       "You can create the collection using create_collection()"
+#     )
+#     stop(msg)
+#   })
 
-  httr2::resp_body_json(resp)
-}
+#   httr2::resp_body_json(resp)
+# }
