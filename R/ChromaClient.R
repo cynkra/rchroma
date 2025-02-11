@@ -2,9 +2,9 @@ make_request <- function(base, endpoint, params = list(), type = "GET") {
   req <- httr2::req_url_path_append(base, endpoint)
   req <- httr2::req_method(req, type)
 
-  if (length(params != 0)) {
+  if (length(params) != 0) {
     if (type == "POST") {
-      req <- httr2::req_body_json(req, !!!params)
+      req <- httr2::req_body_json(req, params, simplifyVector = FALSE)
     } else if (type == "GET") {
       req <- httr2::req_url_query(req, !!!params)
     }
@@ -43,8 +43,9 @@ ChromaClient <- R6::R6Class(
       self$req <- httr2::request(self$base_url)
     },
     #' @description Validate a ChromaDB connection
+    #' @param .call error handler
     #' @return TBD
-    validate = function() {
+    validate = function(.call = rlang::caller_env()) {
       tryCatch(
         {
           resp <- httr2::req_perform(self$req)
@@ -64,10 +65,12 @@ ChromaClient <- R6::R6Class(
               "   docker run -p 8000:8000 chromadb/chroma\n\n",
               "Original error: ",
               e$message
-            )
+            ),
+            call = .call
           )
         }
       )
+      invisible(httr2::resp_status(resp))
     },
     #' @description Get ChromaDB Server Version
     #'
@@ -106,7 +109,7 @@ ChromaClient <- R6::R6Class(
     #'
     #' @return TRUE on success
     reset_database = function() {
-      make_request(self$req, "rest", type = "POST")
+      make_request(self$req, "reset", type = "POST")
     },
     ############# collections.R #############
     #' @description Create a Collection in ChromaDB
@@ -270,7 +273,7 @@ ChromaClient <- R6::R6Class(
       endpoint <- glue::glue("/tenants/{tenant}/databases")
 
       params <- list(name = name)
-      make_request(self$resp, endpoint, params, type = "POST")
+      make_request(self$req, endpoint, params, type = "POST")
       invisible(NULL)
     },
     #' @description Get a Database

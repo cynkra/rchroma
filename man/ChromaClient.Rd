@@ -72,9 +72,16 @@ A ChromaClient object.
 \subsection{Method \code{validate()}}{
 Validate a ChromaDB connection
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ChromaClient$validate()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ChromaClient$validate(.call = rlang::caller_env())}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{.call}}{error handler}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 TBD
 }
