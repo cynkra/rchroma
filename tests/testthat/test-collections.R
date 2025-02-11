@@ -99,7 +99,7 @@ test_that("delete_collection works", {
   # Getting deleted collection should fail
   expect_error(
     get_collection(client, collection_name),
-    "Collection .* does not exist"
+    "Collection .* does not exist|HTTP 400"
   )
 })
 

@@ -134,7 +134,7 @@ update_collection <- function(
   new_name = NULL,
   new_metadata = NULL,
   tenant = "default_tenant",
-  database = "default_tenant"
+  database = "default_database"
 ) {
   # First get the collection to get its ID
   collection <- get_collection(
@@ -157,7 +157,7 @@ update_collection <- function(
     new_name = new_name,
     new_metadata = new_metadata
   )
-  resp <- make_request(client, endpoint, body = body, method = "PUT")
+  resp <- make_request(client$req, endpoint, body = body, method = "PUT")
   invisible(NULL)
 }
 

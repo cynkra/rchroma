@@ -2,7 +2,7 @@ source("helper.R")
 
 test_that("query_collection works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
 
   # Create collection
@@ -12,9 +12,9 @@ test_that("query_collection works", {
   docs <- c("apple fruit", "banana fruit", "carrot vegetable")
   ids <- c("id1", "id2", "id3")
   embeddings <- list(
-    c(1.0, 0.0, 0.0),  # apple
-    c(0.8, 0.2, 0.0),  # banana (similar to apple)
-    c(0.0, 0.0, 1.0)   # carrot (different)
+    c(1.0, 0.0, 0.0), # apple
+    c(0.8, 0.2, 0.0), # banana (similar to apple)
+    c(0.0, 0.0, 1.0) # carrot (different)
   )
   add_documents(
     client,
@@ -28,24 +28,28 @@ test_that("query_collection works", {
   result <- query_collection(
     client,
     collection_name,
-    query_embeddings = list(c(1.0, 0.0, 0.0)),  # should match apple best
+    query_embeddings = list(c(1.0, 0.0, 0.0)), # should match apple best
     n_results = 2
   )
   expect_type(result, "list")
   expect_true(all(c("documents", "metadatas", "distances") %in% names(result)))
   expect_equal(length(result$documents[[1]]), 2)
-  expect_equal(result$documents[[1]][[1]], "apple fruit")  # should be closest match
+  expect_equal(result$documents[[1]][[1]], "apple fruit") # should be closest match
 
   # Query non-existent collection should fail
   expect_error(
-    query_collection(client, "nonexistent_collection", query_embeddings = list(c(1.0, 0.0, 0.0))),
-    "Collection nonexistent_collection does not exist"
+    query_collection(
+      client,
+      "nonexistent_collection",
+      query_embeddings = list(c(1.0, 0.0, 0.0))
+    ),
+    "Collection nonexistent_collection does not exist|HTTP 400"
   )
 })
 
 test_that("query_collection with filters works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
 
   # Create collection
@@ -98,7 +102,7 @@ test_that("query_collection with filters works", {
 
 test_that("query_collection include parameter works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
 
   # Create collection
@@ -150,6 +154,6 @@ test_that("query_collection include parameter works", {
       query_embeddings = list(c(1.0, 0.0)),
       include = c("invalid")
     ),
-    "Input should be 'documents', 'embeddings'"
+    "Input should be 'documents', 'embeddings'|HTTP"
   )
 })

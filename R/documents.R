@@ -73,7 +73,7 @@ update_documents <- function(
   metadatas = NULL,
   embeddings = NULL,
   tenant = "default_tenant",
-  database = "default_tenant"
+  database = "default_database"
 ) {
   # First get the collection to get its ID
   collection <- get_collection(
@@ -104,7 +104,7 @@ update_documents <- function(
     metadatas = metadatas,
     embeddings = embeddings
   )
-  resp <- make_request(client, endpoint, body = body, method = "POST")
+  resp <- make_request(client$req, endpoint, body = body, method = "POST")
   invisible(NULL)
 }
 
@@ -144,7 +144,7 @@ delete_documents <- function(
     collection$id,
     "/delete"
   )
-
+  body <- list()
   if (!is.null(ids)) {
     if (is.character(ids)) {
       ids <- as.list(ids)
@@ -152,7 +152,7 @@ delete_documents <- function(
     body$ids <- ids
   }
   if (!is.null(where)) body$where <- where
-  resp <- make_request(client, endpoint, body = body, method = "POST")
+  resp <- make_request(client$req, endpoint, body = body, method = "POST")
   invisible(NULL)
 }
 

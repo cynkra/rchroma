@@ -38,7 +38,7 @@ query_collection <- function(
   where_document = NULL,
   include = c("documents", "metadatas", "distances"),
   tenant = "default_tenant",
-  database = "default_tenant"
+  database = "default_database"
 ) {
   # First get the collection to get its ID
   collection <- get_collection(
