@@ -22,14 +22,14 @@
 #' # First convert text to embeddings using your preferred method
 #' text_embedding <- your_embedding_function("your search text")
 #' # Then query using the embedding
-#' result <- query_collection(client, "my_collection",
-#'                          query_embeddings = list(text_embedding))
+#' result <- query(client, "my_collection",
+#'                query_embeddings = list(text_embedding))
 #' ```
 #'
 #' @return A list containing the query results. Each element (documents, metadatas, distances)
 #'         is a nested list, so use double brackets [[]] to access individual elements.
 #' @export
-query_collection <- function(
+query <- function(
   client,
   collection_name,
   query_embeddings,

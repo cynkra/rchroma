@@ -15,25 +15,25 @@ test_that("chroma_connect works", {
   )
 })
 
-test_that("get_version works", {
+test_that("version works", {
   client <- chroma_connect()
-  version <- get_version(client)
-  expect_type(version, "character")
-  expect_match(version, "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+  version_info <- version(client)
+  expect_type(version_info, "character")
+  expect_match(version_info, "^[0-9]+\\.[0-9]+\\.[0-9]+$")
 })
 
-test_that("get_server_info works", {
+test_that("pre_flight_checks works", {
   client <- chroma_connect()
-  info <- get_server_info(client)
+  info <- pre_flight_checks(client)
   expect_type(info, "list")
   expect_true("max_batch_size" %in% names(info))
 })
 
-test_that("get_heartbeat works", {
+test_that("heartbeat works", {
   client <- chroma_connect()
-  heartbeat <- get_heartbeat(client)
-  expect_type(heartbeat, "double")
-  expect_gte(heartbeat, 0)
+  heartbeat_info <- heartbeat(client)
+  expect_type(heartbeat_info, "double")
+  expect_gte(heartbeat_info, 0)
 })
 
 test_that("get_auth_identity works", {

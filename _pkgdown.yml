@@ -16,9 +16,9 @@ reference:
     desc: Functions for managing ChromaDB connections
     contents:
       - chroma_connect
-      - matches("version$")
-      - matches("server")
-      - matches("heartbeat$")
+      - version
+      - pre_flight_checks
+      - heartbeat
       - matches("auth")
       - reset
 
@@ -39,4 +39,4 @@ reference:
     desc: Functions for managing documents and performing queries
     contents:
       - matches("documents$")
-      - query_collection
+      - query

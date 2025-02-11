@@ -56,7 +56,7 @@ chroma_connect <- function(
 #'
 #' @return Server version string
 #' @export
-get_version <- function(client) {
+version <- function(client) {
   make_request(client$req, "version")
 }
 
@@ -82,7 +82,7 @@ reset <- function(client) {
 #'
 #' @return List containing server information
 #' @export
-get_server_info <- function(client) {
+pre_flight_checks <- function(client) {
   make_request(client$req, "pre-flight-checks")
 }
 
@@ -92,7 +92,7 @@ get_server_info <- function(client) {
 #'
 #' @return Server heartbeat response as a numeric value
 #' @export
-get_heartbeat <- function(client) {
+heartbeat <- function(client) {
   resp <- make_request(client$req, "heartbeat")
   resp$`nanosecond heartbeat`
 }
