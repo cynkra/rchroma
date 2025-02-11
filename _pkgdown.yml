@@ -2,6 +2,15 @@ url: https://cynkra.github.io/rchroma/
 template:
   bootstrap: 5
 
+navbar:
+  structure:
+    left: [intro, reference, articles, tutorials, news]
+    right: [search, github]
+  components:
+    intro:
+      text: Get started
+      href: articles/introduction.html
+
 reference:
   - title: Connection
     desc: Functions for managing ChromaDB connections
