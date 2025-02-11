@@ -113,7 +113,7 @@ delete_collection <- function(
     "/collections/",
     name
   )
-  resp <- make_request(client$req, endpoint)
+  resp <- make_request(client$req, endpoint, method = "DELETE")
   invisible(NULL)
 }
 
@@ -181,7 +181,7 @@ count_collections <- function(
     database,
     "/collections_count"
   )
-  make_request(client, endpoint)
+  make_request(client$req, endpoint)
 }
 
 #' List Collections in a Database

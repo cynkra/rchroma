@@ -6,21 +6,11 @@
 #'
 #' @return NULL invisibly on success
 #' @export
-create_database <- function(client, name, tenant = "default") {
+create_database <- function(client, name, tenant = "default_tenant") {
   endpoint <- paste0("/tenants/", tenant, "/databases")
 
   body <- list(name = name)
-
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("POST") |>
-      httr2::req_body_json(body) |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to create database")
-  })
-
+  resp <- make_request(client$req, endpoint, body = body, method = "POST")
   invisible(NULL)
 }
 
@@ -32,17 +22,7 @@ create_database <- function(client, name, tenant = "default") {
 #'
 #' @return NULL invisibly on success
 #' @export
-get_database <- function(client, name, tenant = "default") {
+get_database <- function(client, name, tenant = "default_tenant") {
   endpoint <- paste0("/tenants/", tenant, "/databases/", name)
-
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("GET") |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to get database")
-  })
-
-  invisible(NULL)
+  make_request(client$req, endpoint)
 }
