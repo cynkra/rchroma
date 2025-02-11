@@ -1,6 +1,6 @@
 source("helper.R")
 
-test_that("query_collection works", {
+test_that("query works", {
   client <- chroma_connect()
   test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
@@ -25,7 +25,7 @@ test_that("query_collection works", {
   )
 
   # Query with embeddings
-  result <- query_collection(
+  result <- query(
     client,
     collection_name,
     query_embeddings = list(c(1.0, 0.0, 0.0)), # should match apple best
@@ -38,7 +38,7 @@ test_that("query_collection works", {
 
   # Query non-existent collection should fail
   expect_error(
-    query_collection(
+    query(
       client,
       "nonexistent_collection",
       query_embeddings = list(c(1.0, 0.0, 0.0))
@@ -47,7 +47,7 @@ test_that("query_collection works", {
   )
 })
 
-test_that("query_collection with filters works", {
+test_that("query with filters works", {
   client <- chroma_connect()
   test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
@@ -78,7 +78,7 @@ test_that("query_collection with filters works", {
   )
 
   # Query with where filter
-  result <- query_collection(
+  result <- query(
     client,
     collection_name,
     query_embeddings = list(c(1.0, 0.0, 0.0)),
@@ -89,7 +89,7 @@ test_that("query_collection with filters works", {
   expect_equal(result$documents[[1]][[1]], "doc1")
 
   # Query with where_document filter
-  result <- query_collection(
+  result <- query(
     client,
     collection_name,
     query_embeddings = list(c(1.0, 0.0, 0.0)),
@@ -100,7 +100,7 @@ test_that("query_collection with filters works", {
   expect_equal(result$documents[[1]][[1]], "doc1")
 })
 
-test_that("query_collection include parameter works", {
+test_that("query include parameter works", {
   client <- chroma_connect()
   test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
@@ -136,7 +136,7 @@ test_that("query_collection include parameter works", {
   )
 
   for (include in includes) {
-    result <- query_collection(
+    result <- query(
       client,
       collection_name,
       query_embeddings = list(c(1.0, 0.0)),
@@ -148,7 +148,7 @@ test_that("query_collection include parameter works", {
 
   # Test invalid include parameter
   expect_error(
-    query_collection(
+    query(
       client,
       collection_name,
       query_embeddings = list(c(1.0, 0.0)),
