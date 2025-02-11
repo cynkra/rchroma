@@ -17,16 +17,16 @@
 <url><loc>https://cynkra.github.io/rchroma/reference/get_auth_identity.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/get_collection.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/get_database.html</loc></url>
-<url><loc>https://cynkra.github.io/rchroma/reference/get_heartbeat.html</loc></url>
-<url><loc>https://cynkra.github.io/rchroma/reference/get_server_info.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/get_tenant.html</loc></url>
-<url><loc>https://cynkra.github.io/rchroma/reference/get_version.html</loc></url>
+<url><loc>https://cynkra.github.io/rchroma/reference/heartbeat.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/index.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/list_collections.html</loc></url>
-<url><loc>https://cynkra.github.io/rchroma/reference/query_collection.html</loc></url>
+<url><loc>https://cynkra.github.io/rchroma/reference/pre_flight_checks.html</loc></url>
+<url><loc>https://cynkra.github.io/rchroma/reference/query.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/reset.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/update_collection.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/update_documents.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/upsert_documents.html</loc></url>
+<url><loc>https://cynkra.github.io/rchroma/reference/version.html</loc></url>
 </urlset>
 
