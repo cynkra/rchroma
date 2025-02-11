@@ -2,7 +2,7 @@ source("helper.R")
 
 test_that("create_collection works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
 
   # Test basic creation
   collection_name <- paste0("test_collection_", test_id)
@@ -21,26 +21,34 @@ test_that("create_collection works", {
     hnsw_space = "cosine"
   )
   collection_name3 <- paste0("test_collection3_", test_id)
-  collection <- create_collection(client, collection_name3, configuration = config)
+  collection <- create_collection(
+    client,
+    collection_name3,
+    configuration = config
+  )
   expect_type(collection, "list")
   expect_equal(collection$configuration_json$hnsw_configuration$space, "cosine")
 
   # Test get_or_create parameter
   collection_name4 <- paste0("test_collection4_", test_id)
-  collection2 <- create_collection(client, collection_name4, get_or_create = TRUE)
+  collection2 <- create_collection(
+    client,
+    collection_name4,
+    get_or_create = TRUE
+  )
   expect_type(collection2, "list")
   expect_equal(collection2$name, collection_name4)
 
   # Test error on duplicate collection without get_or_create
   expect_error(
     create_collection(client, collection_name4),
-    "UniqueConstraintError"
+    "UniqueConstraintError|HTTP 409"
   )
 })
 
 test_that("get_collection works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
 
   create_collection(client, collection_name)
@@ -51,7 +59,7 @@ test_that("get_collection works", {
 
 test_that("update_collection works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
   new_collection_name <- paste0("new_test_collection_", test_id)
 
@@ -80,7 +88,7 @@ test_that("update_collection works", {
 
 test_that("delete_collection works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
 
   create_collection(client, collection_name)
@@ -91,13 +99,13 @@ test_that("delete_collection works", {
   # Getting deleted collection should fail
   expect_error(
     get_collection(client, collection_name),
-    "Collection .* does not exist"
+    "Collection .* does not exist|HTTP 400"
   )
 })
 
 test_that("list_collections works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
 
   # Create some test collections
   collection_name1 <- paste0("test_collection1_", test_id)
@@ -121,7 +129,7 @@ test_that("list_collections works", {
 
 test_that("count_collections works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
 
   # Create some test collections
   collection_name1 <- paste0("test_collection1_", test_id)

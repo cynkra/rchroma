@@ -4,7 +4,11 @@
 \alias{count_collections}
 \title{Count Collections in a Database}
 \usage{
-count_collections(client, tenant = "default", database = "default")
+count_collections(
+  client,
+  tenant = "default_tenant",
+  database = "default_database"
+)
 }
 \arguments{
 \item{client}{A ChromaDB client object}

@@ -29,15 +29,34 @@
 #' @return A list containing the query results. Each element (documents, metadatas, distances)
 #'         is a nested list, so use double brackets [[]] to access individual elements.
 #' @export
-query_collection <- function(client, collection_name, query_embeddings,
-                           n_results = 10L, where = NULL, where_document = NULL,
-                           include = c("documents", "metadatas", "distances"),
-                           tenant = "default", database = "default") {
+query_collection <- function(
+  client,
+  collection_name,
+  query_embeddings,
+  n_results = 10L,
+  where = NULL,
+  where_document = NULL,
+  include = c("documents", "metadatas", "distances"),
+  tenant = "default_tenant",
+  database = "default_database"
+) {
   # First get the collection to get its ID
-  collection <- get_collection(client, collection_name, tenant = tenant, database = database)
+  collection <- get_collection(
+    client,
+    collection_name,
+    tenant = tenant,
+    database = database
+  )
 
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database,
-                    "/collections/", collection$id, "/query")
+  endpoint <- paste0(
+    "/tenants/",
+    tenant,
+    "/databases/",
+    database,
+    "/collections/",
+    collection$id,
+    "/query"
+  )
 
   # Ensure query_embeddings is a list of numeric vectors
   if (!is.list(query_embeddings)) {
@@ -55,21 +74,9 @@ query_collection <- function(client, collection_name, query_embeddings,
   body <- list(
     query_embeddings = query_embeddings,
     n_results = n_results,
-    include = include
+    include = include,
+    where = where,
+    where_document = where_document
   )
-
-  if (!is.null(where)) body$where <- where
-  if (!is.null(where_document)) body$where_document <- where_document
-
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("POST") |>
-      httr2::req_body_json(body) |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to query collection")
-  })
-
-  httr2::resp_body_json(resp)
+  make_request(client$req, endpoint, body = body, method = "POST")
 }

@@ -4,7 +4,7 @@
 \alias{create_database}
 \title{Create a Database}
 \usage{
-create_database(client, name, tenant = "default")
+create_database(client, name, tenant = "default_tenant")
 }
 \arguments{
 \item{client}{A ChromaDB client object}

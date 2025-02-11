@@ -9,8 +9,8 @@ create_collection(
   name,
   metadata = NULL,
   configuration = NULL,
-  tenant = "default",
-  database = "default",
+  tenant = "default_tenant",
+  database = "default_database",
   get_or_create = FALSE
 )
 }
