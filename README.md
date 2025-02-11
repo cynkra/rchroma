@@ -1,7 +1,9 @@
-# rchroma
+
+# rchroma <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 [![R-CMD-check](https://github.com/cynkra/rchroma/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cynkra/rchroma/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/cynkra/rchroma/branch/main/graph/badge.svg)](https://app.codecov.io/gh/cynkra/rchroma?branch=main)
+[![Codecov test
+coverage](https://codecov.io/gh/cynkra/rchroma/branch/main/graph/badge.svg)](https://app.codecov.io/gh/cynkra/rchroma?branch=main)
 
 An R client for ChromaDB, a modern vector database for storing and
 querying embeddings.
