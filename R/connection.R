@@ -60,9 +60,9 @@ get_version <- function(client) {
   make_request(client$req, "version")
 }
 
-#' Reset ChromaDB Database
+#' Reset ChromaDB
 #'
-#' This function resets the entire database. Use with caution as this will delete all data.
+#' This function resets the entire ChromaDB instance. Use with caution as this will delete all data.
 #' Note: This function requires setting ALLOW_RESET=TRUE in the environment variables
 #' or allow_reset=True in the ChromaDB Settings.
 #'
@@ -70,7 +70,7 @@ get_version <- function(client) {
 #'
 #' @return TRUE on success
 #' @export
-reset_database <- function(client) {
+reset <- function(client) {
   make_request(client$req, "reset", method = "POST")
 }
 

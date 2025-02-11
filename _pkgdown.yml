@@ -1,0 +1,33 @@
+url: https://cynkra.github.io/rchroma/
+template:
+  bootstrap: 5
+
+reference:
+  - title: Connection
+    desc: Functions for managing ChromaDB connections
+    contents:
+      - chroma_connect
+      - matches("version$")
+      - matches("server")
+      - matches("heartbeat$")
+      - matches("auth")
+      - reset
+
+  - title: Database and Tenants
+    desc: Functions for managing databases and tenants
+    contents:
+      - matches("database$")
+      - matches("tenant$")
+
+  - title: Collections
+    desc: Functions for working with collections
+    contents:
+      - matches("collection$")
+      - list_collections
+      - count_collections
+
+  - title: Documents and Queries
+    desc: Functions for managing documents and performing queries
+    contents:
+      - matches("documents$")
+      - query_collection
