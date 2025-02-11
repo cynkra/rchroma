@@ -53,8 +53,8 @@ library(rchroma)
 client <- chroma_connect("http://localhost:8000")
 
 # Check the connection
-get_heartbeat(client)
-get_version(client)
+heartbeat(client)
+version(client)
 ```
 
 ### Managing Collections

@@ -47,20 +47,19 @@ library(rchroma)
 client <- chroma_connect()
 
 # Create a collection and add documents
-create_collection(client, "my_collection")
+collection <- create_collection(client, "my_collection")
 add_documents(
-  client,
-  "my_collection",
+  collection,
   documents = c(
     "The quick brown fox jumps over the lazy dog",
     "Pack my box with five dozen liquor jugs"
-  )
+  ),
+  ids = c("doc1", "doc2")
 )
 
 # Query similar documents
 query_collection(
-  client,
-  "my_collection",
+  collection,
   query_texts = "fox",
   n_results = 2
 )
