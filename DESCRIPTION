@@ -13,6 +13,7 @@ Description: An R client for ChromaDB, a vector database for storing and queryin
 License: MIT + file LICENSE
 URL: https://github.com/cynkra/rchroma
 BugReports: https://github.com/cynkra/rchroma/issues
+Language: en-US
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -23,6 +24,7 @@ Suggests:
     testthat (>= 3.0.0),
     knitr,
     rmarkdown,
-    covr
+    covr,
+    spelling
 Config/testthat/edition: 3
 VignetteBuilder: knitr

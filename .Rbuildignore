@@ -5,3 +5,5 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^README\.html$
+^WORDLIST$
+^inst/WORDLIST$
