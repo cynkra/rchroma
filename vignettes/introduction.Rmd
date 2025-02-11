@@ -50,7 +50,7 @@ First, we need to establish a connection to ChromaDB:
 library(rchroma)
 
 # Connect to a local ChromaDB instance
-client <- chroma_connect("http://localhost:8000")
+client <- chroma_connect()
 
 # Check the connection
 heartbeat(client)
@@ -63,17 +63,13 @@ Collections are the main way to organize your data in ChromaDB:
 
 ```{r eval=FALSE}
 # Create a new collection
-collection <- create_collection(
-  client,
-  name = "my_collection",
-  metadata = list(description = "A test collection")
-)
+create_collection(client, "my_collection")
 
 # List all collections
 list_collections(client)
 
 # Get a specific collection
-collection <- get_collection(client, "my_collection")
+get_collection(client, "my_collection")
 ```
 
 ### Working with Documents
@@ -81,24 +77,32 @@ collection <- get_collection(client, "my_collection")
 Documents are the basic unit of data in ChromaDB. Each document consists of text content and its associated embedding:
 
 ```{r eval=FALSE}
-# Add documents
+# Add documents with embeddings
 docs <- c(
-  "The quick brown fox jumps over the lazy dog",
-  "Pack my box with five dozen liquor jugs",
-  "How vexingly quick daft zebras jump"
+  "apple fruit",
+  "banana fruit",
+  "carrot vegetable"
+)
+embeddings <- list(
+  c(1.0, 0.0, 0.0),  # apple
+  c(0.8, 0.2, 0.0),  # banana (similar to apple)
+  c(0.0, 0.0, 1.0)   # carrot (different)
 )
 
 # Add documents to the collection
 add_documents(
-  collection,
+  client,
+  "my_collection",
   documents = docs,
-  ids = c("doc1", "doc2", "doc3")
+  ids = c("doc1", "doc2", "doc3"),
+  embeddings = embeddings
 )
 
-# Query similar documents
-results <- query_collection(
-  collection,
-  query_texts = "A fox jumps",
+# Query similar documents using embeddings
+results <- query(
+  client,
+  "my_collection",
+  query_embeddings = list(c(1.0, 0.0, 0.0)),  # should match apple best
   n_results = 2
 )
 ```
@@ -108,65 +112,14 @@ results <- query_collection(
 You can update or delete documents as needed:
 
 ```{r eval=FALSE}
-# Update documents
+# Update embedding separately
 update_documents(
-  collection,
+  client,
+  "my_collection",
   ids = "doc1",
-  documents = "The quick brown fox sleeps under the lazy moon"
+  embeddings = list(c(0.9, 0.1, 0.0))  # slightly different from original apple
 )
 
 # Delete documents
-delete_documents(collection, ids = "doc2")
+delete_documents(client, "my_collection", ids = "doc2")  # removes banana
 ```
-
-## Advanced Features
-
-### Tenant and Database Management
-
-ChromaDB supports multi-tenancy and multiple databases:
-
-```{r eval=FALSE}
-# Create a new tenant
-create_tenant(client, "my_tenant")
-
-# Create a new database
-create_database(client, "my_database", tenant = "my_tenant")
-
-# Create a collection in the new tenant/database
-create_collection(
-  client,
-  name = "my_collection",
-  tenant = "my_tenant",
-  database = "my_database"
-)
-```
-
-### Collection Configuration
-
-You can configure collections with specific settings:
-
-```{r eval=FALSE}
-# Create a collection with HNSW configuration
-create_collection(
-  client,
-  name = "my_collection",
-  configuration = list(hnsw_space = "cosine")
-)
-```
-
-## Clean Up
-
-When you're done, you can delete collections:
-
-```{r eval=FALSE}
-# Delete a collection
-delete_collection(client, "my_collection")
-```
-
-## Further Reading
-
-For more detailed information:
-
-- Visit the [ChromaDB documentation](https://docs.trychroma.com/)
-- Check the [rchroma GitHub repository](https://github.com/cynkra/rchroma)
-- Run `?rchroma` for package documentation

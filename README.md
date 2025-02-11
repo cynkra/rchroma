@@ -41,24 +41,24 @@ library(rchroma)
 # Connect to ChromaDB
 client <- chroma_connect()
 
-# Create a collection and add documents
+# Create a collection and add documents with embeddings
 create_collection(client, "my_collection")
 add_documents(
   client,
   "my_collection",
-  documents = c(
-    "The quick brown fox jumps over the lazy dog",
-    "Pack my box with five dozen liquor jugs"
+  documents = c("apple", "banana"),
+  ids = c("doc1", "doc2"),
+  embeddings = list(
+    c(1.0, 0.0),  # apple
+    c(0.8, 0.2)   # banana (similar to apple)
   )
 )
 
-# Query similar documents
-query_collection(
+# Query similar documents using embeddings
+query(
   client,
   "my_collection",
-  query_texts = "fox",
+  query_embeddings = list(c(1.0, 0.0)),  # should match apple best
   n_results = 2
 )
 ```
-
-Learn more in `vignette("introduction")`.
