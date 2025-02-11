@@ -1,3 +1,4 @@
+if (!identical(Sys.getenv("NOT_CRAN"), "true")) return()
 source("helper.R")
 
 test_that("add_documents works", {

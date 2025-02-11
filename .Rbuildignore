@@ -8,3 +8,5 @@
 ^WORDLIST$
 ^inst/WORDLIST$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
+_pkgdown.yml

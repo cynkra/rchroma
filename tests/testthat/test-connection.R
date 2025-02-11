@@ -1,3 +1,4 @@
+if (!identical(Sys.getenv("NOT_CRAN"), "true")) return()
 test_that("chroma_connect works", {
   client <- chroma_connect()
   expect_s3_class(client, "chroma_client")
@@ -5,7 +6,11 @@ test_that("chroma_connect works", {
   expect_s3_class(client$req, "httr2_request")
 
   # Test custom host and port
-  client2 <- chroma_connect(host = "http://localhost", port = 8001L, verify = FALSE)
+  client2 <- chroma_connect(
+    host = "http://localhost",
+    port = 8001L,
+    verify = FALSE
+  )
   expect_equal(client2$base_url, "http://localhost:8001/api/v2")
 
   # Test connection error
