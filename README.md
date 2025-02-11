@@ -30,7 +30,7 @@ docker run -p 8000:8000 chromadb/chroma
 ```
 
 See the [ChromaDB
-documentation](https://docs.trychroma.com/usage-guide#running-chroma-in-clientserver-mode)
+documentation](https://docs.trychroma.com/docs/overview/introduction)
 for other installation methods.
 
 ## Usage

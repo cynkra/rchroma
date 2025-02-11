@@ -38,7 +38,7 @@ docker run -p 8000:8000 chromadb/chroma
 
 This will start a ChromaDB server on `http://localhost:8000`.
 
-For other installation methods and configuration options, please refer to the [ChromaDB documentation](https://docs.trychroma.com/usage-guide#running-chroma-in-clientserver-mode).
+For other installation methods and configuration options, please refer to the [ChromaDB documentation](https://docs.trychroma.com/docs/overview/introduction).
 
 ## Basic Usage
 
