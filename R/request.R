@@ -11,13 +11,16 @@ make_request <- function(
   if (!is.null(body)) {
     req <- httr2::req_body_json(req, body)
   }
+  resp <- tryCatch(
+    httr2::req_perform(req),
+    error = function(e) handle_chroma_error(e)
+  )
 
-  resp <- httr2::req_perform(req) #TODO: add error handler
   httr2::resp_body_json(resp)
 }
 
 # Helper function for consistent error handling
-handle_chroma_error <- function(e, action) {
+handle_chroma_error <- function(e) {
   if (inherits(e, "httr2_error")) {
     err_body <- tryCatch(
       {
