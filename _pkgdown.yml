@@ -7,27 +7,27 @@ reference:
     desc: Functions for managing ChromaDB connections
     contents:
       - chroma_connect
-      - get_version
-      - get_server_info
-      - get_heartbeat
-      - get_auth_identity
-      - reset_database
+      - matches("version$")
+      - matches("server")
+      - matches("heartbeat$")
+      - matches("auth")
+      - reset
+
+  - title: Database and Tenants
+    desc: Functions for managing databases and tenants
+    contents:
+      - matches("database$")
+      - matches("tenant$")
 
   - title: Collections
     desc: Functions for working with collections
     contents:
-      - create_collection
-      - get_collection
-      - delete_collection
-      - update_collection
-      - count_collections
+      - matches("collection$")
       - list_collections
+      - count_collections
 
   - title: Documents and Queries
     desc: Functions for managing documents and performing queries
     contents:
-      - matches("add")
-      - matches("get")
-      - matches("update")
-      - matches("delete")
-      - matches("query")
+      - matches("documents$")
+      - query_collection
