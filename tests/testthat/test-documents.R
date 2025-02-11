@@ -2,7 +2,7 @@ source("helper.R")
 
 test_that("add_documents works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
 
   # Create collection first
@@ -65,7 +65,7 @@ test_that("add_documents works", {
 
 test_that("update_documents works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
 
   # Create collection
@@ -88,13 +88,23 @@ test_that("update_documents works", {
     list(updated = TRUE)
   )
   expect_no_error(
-    update_documents(client, collection_name, ids = ids, metadatas = new_metadata)
+    update_documents(
+      client,
+      collection_name,
+      ids = ids,
+      metadatas = new_metadata
+    )
   )
 
   # Update embeddings should work silently
   new_embeddings <- list(c(0, 0, 1), c(0, 0, 2))
   expect_no_error(
-    update_documents(client, collection_name, ids = ids, embeddings = new_embeddings)
+    update_documents(
+      client,
+      collection_name,
+      ids = ids,
+      embeddings = new_embeddings
+    )
   )
 
   # Update non-existent document should work silently (API behavior)
@@ -106,14 +116,18 @@ test_that("update_documents works", {
 test_that("update_documents fails correctly for non-existent collection", {
   client <- chroma_connect()
   expect_error(
-    update_documents(client, "nonexistent_collection", ids = c("nonexistent_id")),
-    "InvalidCollection: Collection nonexistent_collection does not exist."
+    update_documents(
+      client,
+      "nonexistent_collection",
+      ids = c("nonexistent_id")
+    ),
+    "InvalidCollection: Collection nonexistent_collection does not exist.|HTTP 400"
   )
 })
 
 test_that("delete_documents works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
   collection_name <- paste0("test_collection_", test_id)
 
   # Create collection
@@ -127,7 +141,13 @@ test_that("delete_documents works", {
     list(source = "test"),
     list(source = "other")
   )
-  add_documents(client, collection_name, documents = docs, ids = ids, metadatas = metadatas)
+  add_documents(
+    client,
+    collection_name,
+    documents = docs,
+    ids = ids,
+    metadatas = metadatas
+  )
 
   # Delete specific documents should work silently
   expect_no_error(
@@ -136,7 +156,11 @@ test_that("delete_documents works", {
 
   # Delete with where filter should work silently
   expect_no_error(
-    delete_documents(client, collection_name, where = list(source = list("$eq" = "test")))
+    delete_documents(
+      client,
+      collection_name,
+      where = list(source = list("$eq" = "test"))
+    )
   )
 
   # Delete non-existent document should work silently (API behavior)

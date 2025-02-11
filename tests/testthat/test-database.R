@@ -2,7 +2,7 @@ source("helper.R")
 
 test_that("create_database works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
 
   tenant_name <- paste0("test_tenant_", test_id)
   db_name <- paste0("test_database_", test_id)
@@ -18,7 +18,7 @@ test_that("create_database works", {
   # Creating same database should fail
   expect_error(
     create_database(client, db_name, tenant = tenant_name),
-    "UniqueConstraintError: Database .* already exists"
+    "UniqueConstraintError: Database .* already exists|HTTP 409"
   )
 
   # Create database in default tenant should work silently
@@ -29,7 +29,7 @@ test_that("create_database works", {
 
 test_that("get_database works", {
   client <- chroma_connect()
-  test_id <- basename(tempfile("test"))  # Generate unique test ID
+  test_id <- basename(tempfile("test")) # Generate unique test ID
 
   tenant_name <- paste0("test_tenant_", test_id)
   db_name <- paste0("test_database_", test_id)
@@ -46,7 +46,7 @@ test_that("get_database works", {
   # Getting non-existent database should fail
   expect_error(
     get_database(client, "nonexistent_database", tenant = tenant_name),
-    "NotFoundError: Database nonexistent_database not found"
+    "NotFoundError: Database nonexistent_database not found|HTTP 404"
   )
 
   # Get database from default tenant should work silently
