@@ -21,6 +21,18 @@ You can install rchroma from GitHub:
 remotes::install_github("cynkra/rchroma")
 ```
 
+You also need a running ChromaDB instance. The easiest way to get
+started is using Docker:
+
+``` bash
+docker pull chromadb/chroma
+docker run -p 8000:8000 chromadb/chroma
+```
+
+See the [ChromaDB
+documentation](https://docs.trychroma.com/usage-guide#running-chroma-in-clientserver-mode)
+for other installation methods.
+
 ## Usage
 
 ``` r
