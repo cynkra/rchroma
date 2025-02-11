@@ -1,0 +1,159 @@
+---
+title: "Introduction to rchroma"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to rchroma}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+The rchroma package provides an R interface to ChromaDB, a vector database for storing and querying embeddings. This vignette demonstrates the basic usage of the package.
+
+## Installation
+
+You can install the development version of rchroma from GitHub:
+
+```{r eval=FALSE}
+# install.packages("remotes")
+remotes::install_github("cynkra/rchroma")
+```
+
+## Basic Usage
+
+### Connecting to ChromaDB
+
+First, we need to establish a connection to ChromaDB:
+
+```{r eval=FALSE}
+library(rchroma)
+
+# Connect to a local ChromaDB instance
+client <- chroma_connect("http://localhost:8000")
+
+# Check the connection
+get_heartbeat(client)
+get_version(client)
+```
+
+### Managing Collections
+
+Collections are the main way to organize your data in ChromaDB:
+
+```{r eval=FALSE}
+# Create a new collection
+collection <- create_collection(
+  client,
+  name = "my_collection",
+  metadata = list(description = "A test collection")
+)
+
+# List all collections
+list_collections(client)
+
+# Get a specific collection
+collection <- get_collection(client, "my_collection")
+```
+
+### Working with Documents
+
+Documents are the basic unit of data in ChromaDB. Each document consists of text content and its associated embedding:
+
+```{r eval=FALSE}
+# Add documents
+docs <- c(
+  "The quick brown fox jumps over the lazy dog",
+  "Pack my box with five dozen liquor jugs",
+  "How vexingly quick daft zebras jump"
+)
+
+# Add documents to the collection
+add_documents(
+  collection,
+  documents = docs,
+  ids = c("doc1", "doc2", "doc3")
+)
+
+# Query similar documents
+results <- query_collection(
+  collection,
+  query_texts = "A fox jumps",
+  n_results = 2
+)
+```
+
+### Updating and Deleting
+
+You can update or delete documents as needed:
+
+```{r eval=FALSE}
+# Update documents
+update_documents(
+  collection,
+  ids = "doc1",
+  documents = "The quick brown fox sleeps under the lazy moon"
+)
+
+# Delete documents
+delete_documents(collection, ids = "doc2")
+```
+
+## Advanced Features
+
+### Tenant and Database Management
+
+ChromaDB supports multi-tenancy and multiple databases:
+
+```{r eval=FALSE}
+# Create a new tenant
+create_tenant(client, "my_tenant")
+
+# Create a new database
+create_database(client, "my_database", tenant = "my_tenant")
+
+# Create a collection in the new tenant/database
+create_collection(
+  client,
+  name = "my_collection",
+  tenant = "my_tenant",
+  database = "my_database"
+)
+```
+
+### Collection Configuration
+
+You can configure collections with specific settings:
+
+```{r eval=FALSE}
+# Create a collection with HNSW configuration
+create_collection(
+  client,
+  name = "my_collection",
+  configuration = list(hnsw_space = "cosine")
+)
+```
+
+## Clean Up
+
+When you're done, you can delete collections:
+
+```{r eval=FALSE}
+# Delete a collection
+delete_collection(client, "my_collection")
+```
+
+## Further Reading
+
+For more detailed information:
+
+- Visit the [ChromaDB documentation](https://docs.trychroma.com/)
+- Check the [rchroma GitHub repository](https://github.com/cynkra/rchroma)
+- Run `?rchroma` for package documentation
