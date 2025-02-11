@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   introduction: introduction.html
-last_built: 2025-02-11T19:08Z
+last_built: 2025-02-11T19:20Z
 urls:
   reference: https://cynkra.github.io/rchroma/reference
   article: https://cynkra.github.io/rchroma/articles
