@@ -7,3 +7,4 @@
 ^README\.html$
 ^WORDLIST$
 ^inst/WORDLIST$
+^cran-comments\.md$
