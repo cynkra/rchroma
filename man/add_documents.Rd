@@ -12,8 +12,8 @@ add_documents(
   metadatas = NULL,
   embeddings = NULL,
   uris = NULL,
-  tenant = "default",
-  database = "default"
+  tenant = "default_tenant",
+  database = "default_database"
 )
 }
 \arguments{

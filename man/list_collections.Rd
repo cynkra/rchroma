@@ -6,8 +6,8 @@
 \usage{
 list_collections(
   client,
-  tenant = "default",
-  database = "default",
+  tenant = "default_tenant",
+  database = "default_database",
   limit = NULL,
   offset = NULL
 )

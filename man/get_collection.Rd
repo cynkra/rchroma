@@ -4,7 +4,12 @@
 \alias{get_collection}
 \title{Get a Collection}
 \usage{
-get_collection(client, name, tenant = "default", database = "default")
+get_collection(
+  client,
+  name,
+  tenant = "default_tenant",
+  database = "default_database"
+)
 }
 \arguments{
 \item{client}{A ChromaDB client object}

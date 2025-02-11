@@ -11,8 +11,8 @@ update_documents(
   documents = NULL,
   metadatas = NULL,
   embeddings = NULL,
-  tenant = "default",
-  database = "default"
+  tenant = "default_tenant",
+  database = "default_database"
 )
 }
 \arguments{

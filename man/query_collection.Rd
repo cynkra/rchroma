@@ -12,8 +12,8 @@ query_collection(
   where = NULL,
   where_document = NULL,
   include = c("documents", "metadatas", "distances"),
-  tenant = "default",
-  database = "default"
+  tenant = "default_tenant",
+  database = "default_database"
 )
 }
 \arguments{

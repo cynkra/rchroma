@@ -4,7 +4,7 @@
 \alias{get_database}
 \title{Get a Database}
 \usage{
-get_database(client, name, tenant = "default")
+get_database(client, name, tenant = "default_tenant")
 }
 \arguments{
 \item{client}{A ChromaDB client object}

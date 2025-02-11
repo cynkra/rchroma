@@ -4,7 +4,12 @@
 \alias{delete_collection}
 \title{Delete a Collection}
 \usage{
-delete_collection(client, name, tenant = "default", database = "default")
+delete_collection(
+  client,
+  name,
+  tenant = "default_tenant",
+  database = "default_database"
+)
 }
 \arguments{
 \item{client}{A ChromaDB client object}

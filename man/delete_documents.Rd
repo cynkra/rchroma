@@ -9,8 +9,8 @@ delete_documents(
   collection_name,
   ids = NULL,
   where = NULL,
-  tenant = "default",
-  database = "default"
+  tenant = "default_tenant",
+  database = "default_database"
 )
 }
 \arguments{
