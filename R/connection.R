@@ -71,7 +71,6 @@ get_version <- function(client) {
 #' @return TRUE on success
 #' @export
 reset_database <- function(client) {
-  endpoint <- "/reset"
   make_request(client$req, "reset", method = "POST")
 }
 
@@ -105,5 +104,5 @@ get_heartbeat <- function(client) {
 #' @return Authentication identity information
 #' @export
 get_auth_identity <- function(client) {
-  make_request(client$req, "/auth/identity")
+  make_request(client$req, "auth/identity")
 }

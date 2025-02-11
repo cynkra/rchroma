@@ -11,10 +11,22 @@
 #'
 #' @return A collection object
 #' @export
-create_collection <- function(client, name, metadata = NULL, configuration = NULL,
-                            tenant = "default", database = "default",
-                            get_or_create = FALSE) {
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database, "/collections")
+create_collection <- function(
+  client,
+  name,
+  metadata = NULL,
+  configuration = NULL,
+  tenant = "default_tenant",
+  database = "default_database",
+  get_or_create = FALSE
+) {
+  endpoint <- paste0(
+    "/tenants/",
+    tenant,
+    "/databases/",
+    database,
+    "/collections"
+  )
 
   body <- list(
     name = name,
@@ -27,7 +39,10 @@ create_collection <- function(client, name, metadata = NULL, configuration = NUL
     if (!is.null(configuration$hnsw_space)) {
       valid_spaces <- c("cosine", "l2", "ip")
       if (!configuration$hnsw_space %in% valid_spaces) {
-        stop("Invalid hnsw_space. Must be one of: ", paste(valid_spaces, collapse = ", "))
+        stop(
+          "Invalid hnsw_space. Must be one of: ",
+          paste(valid_spaces, collapse = ", ")
+        )
       }
       body$configuration <- list(
         hnsw_configuration = list(
@@ -40,22 +55,12 @@ create_collection <- function(client, name, metadata = NULL, configuration = NUL
       body$configuration <- configuration
     }
   }
-
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("POST") |>
-      httr2::req_body_json(body) |>
-      httr2::req_perform()
-  }, error = function(e) {
-    if (inherits(e, "httr2_error")) {
-      err_body <- httr2::resp_body_json(e$resp)
-      stop(err_body$error)
-    }
-    handle_chroma_error(e, "Failed to create collection")
-  })
-
-  httr2::resp_body_json(resp)
+  make_request(
+    client$req,
+    endpoint,
+    body = body,
+    method = "POST"
+  )
 }
 
 #' Get a Collection
@@ -67,19 +72,22 @@ create_collection <- function(client, name, metadata = NULL, configuration = NUL
 #'
 #' @return A collection object
 #' @export
-get_collection <- function(client, name, tenant = "default", database = "default") {
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database, "/collections/", name)
+get_collection <- function(
+  client,
+  name,
+  tenant = "default_tenant",
+  database = "default_database"
+) {
+  endpoint <- paste0(
+    "/tenants/",
+    tenant,
+    "/databases/",
+    database,
+    "/collections/",
+    name
+  )
 
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("GET") |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to get collection")
-  })
-
-  httr2::resp_body_json(resp)
+  make_request(client$req, endpoint)
 }
 
 #' Delete a Collection
@@ -91,22 +99,21 @@ get_collection <- function(client, name, tenant = "default", database = "default
 #'
 #' @return Invisible NULL on success
 #' @export
-delete_collection <- function(client, name, tenant = "default", database = "default") {
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database, "/collections/", name)
-
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("DELETE") |>
-      httr2::req_perform()
-  }, error = function(e) {
-    if (inherits(e, "httr2_error")) {
-      err_body <- httr2::resp_body_json(e$resp)
-      stop(err_body$error)
-    }
-    handle_chroma_error(e, "Failed to delete collection")
-  })
-
+delete_collection <- function(
+  client,
+  name,
+  tenant = "default_tenant",
+  database = "default_database"
+) {
+  endpoint <- paste0(
+    "/tenants/",
+    tenant,
+    "/databases/",
+    database,
+    "/collections/",
+    name
+  )
+  resp <- make_request(client$req, endpoint)
   invisible(NULL)
 }
 
@@ -121,32 +128,36 @@ delete_collection <- function(client, name, tenant = "default", database = "defa
 #'
 #' @return NULL on success (invisibly)
 #' @export
-update_collection <- function(client, name, new_name = NULL, new_metadata = NULL,
-                            tenant = "default", database = "default") {
+update_collection <- function(
+  client,
+  name,
+  new_name = NULL,
+  new_metadata = NULL,
+  tenant = "default_tenant",
+  database = "default_tenant"
+) {
   # First get the collection to get its ID
-  collection <- get_collection(client, name, tenant = tenant, database = database)
+  collection <- get_collection(
+    client,
+    name,
+    tenant = tenant,
+    database = database
+  )
 
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database, "/collections/", collection$id)
+  endpoint <- paste0(
+    "/tenants/",
+    tenant,
+    "/databases/",
+    database,
+    "/collections/",
+    collection$id
+  )
 
   body <- list(
     new_name = new_name,
     new_metadata = new_metadata
   )
-
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("PUT") |>
-      httr2::req_body_json(body) |>
-      httr2::req_perform()
-  }, error = function(e) {
-    if (inherits(e, "httr2_error")) {
-      err_body <- httr2::resp_body_json(e$resp)
-      stop(err_body$error)
-    }
-    handle_chroma_error(e, "Failed to update collection")
-  })
-
+  resp <- make_request(client, endpoint, body = body, method = "PUT")
   invisible(NULL)
 }
 
@@ -158,19 +169,19 @@ update_collection <- function(client, name, new_name = NULL, new_metadata = NULL
 #'
 #' @return Number of collections in the database
 #' @export
-count_collections <- function(client, tenant = "default", database = "default") {
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database, "/collections_count")
-
-  resp <- tryCatch({
-    client$req |>
-      httr2::req_url_path_append(endpoint) |>
-      httr2::req_method("GET") |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to count collections")
-  })
-
-  httr2::resp_body_json(resp)
+count_collections <- function(
+  client,
+  tenant = "default_tenant",
+  database = "default_database"
+) {
+  endpoint <- paste0(
+    "/tenants/",
+    tenant,
+    "/databases/",
+    database,
+    "/collections_count"
+  )
+  make_request(client, endpoint)
 }
 
 #' List Collections in a Database
@@ -183,30 +194,21 @@ count_collections <- function(client, tenant = "default", database = "default") 
 #'
 #' @return List of collections
 #' @export
-list_collections <- function(client, tenant = "default", database = "default",
-                           limit = NULL, offset = NULL) {
-  endpoint <- paste0("/tenants/", tenant, "/databases/", database, "/collections")
+list_collections <- function(
+  client,
+  tenant = "default_tenant",
+  database = "default_database",
+  limit = NULL,
+  offset = NULL
+) {
+  endpoint <- paste0(
+    "/tenants/",
+    tenant,
+    "/databases/",
+    database,
+    "/collections"
+  )
 
-  # Build query parameters
-  query <- list()
-  if (!is.null(limit)) query$limit <- limit
-  if (!is.null(offset)) query$offset <- offset
-
-  resp <- tryCatch({
-    req <- client$req |>
-      httr2::req_url_path_append(endpoint)
-
-    # Add query parameters if any
-    if (length(query) > 0) {
-      req <- req |> httr2::req_url_query(!!!query)
-    }
-
-    req |>
-      httr2::req_method("GET") |>
-      httr2::req_perform()
-  }, error = function(e) {
-    handle_chroma_error(e, "Failed to list collections")
-  })
-
-  httr2::resp_body_json(resp)
+  query <- list(limit = limit, offset = offset)
+  make_request(client$req, endpoint, query = query)
 }
