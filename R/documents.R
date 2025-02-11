@@ -192,26 +192,5 @@ upsert_documents <- function(
   if (!is.null(embeddings)) body$embeddings <- embeddings
   if (!is.null(uris)) body$uris <- uris
 
-  resp <- tryCatch(
-    {
-      client$req |>
-        httr2::req_url_path_append(endpoint) |>
-        httr2::req_method("POST") |>
-        httr2::req_body_json(body) |>
-        httr2::req_perform()
-    },
-    error = function(e) {
-      msg <- paste0(
-        "Failed to upsert documents: ",
-        e$message,
-        "\n\n",
-        "Make sure ChromaDB is running and the collection exists:\n",
-        "docker run -p 8000:8000 chromadb/chroma\n\n",
-        "You can create the collection using create_collection()"
-      )
-      stop(msg)
-    }
-  )
-
-  httr2::resp_body_json(resp)
+  make_request(client$req, endpoint, body = body, method = "POST")
 }
