@@ -1,0 +1,9 @@
+pandoc: 3.1.11
+pkgdown: 2.1.1
+pkgdown_sha: ~
+articles:
+  introduction: introduction.html
+last_built: 2025-02-11T16:20Z
+urls:
+  reference: https://cynkra.github.io/rchroma/reference
+  article: https://cynkra.github.io/rchroma/articles
