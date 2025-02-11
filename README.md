@@ -1,5 +1,5 @@
 
-# rchroma
+# rchroma <a href="https://cynkra.github.io/rchroma/"><img src="man/figures/logo.png" align="right" height="139" alt="rchroma website" /></a>
 
 <!-- badges: start -->
 
