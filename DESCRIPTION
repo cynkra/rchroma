@@ -1,15 +1,13 @@
 Type: Package
 Package: rchroma
-Title: R Client for 'ChromaDB'
+Title: A Client for 'ChromaDB'
 Version: 0.1.0
 Authors@R: c(
     person("David", "Schoch", email = "david@schochastics.net", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2952-4812")),
     person("Christoph", "Sax", , "christoph.sax@gmail.com", role = "aut"),
     person("cynkra LLC", role = "cph"))
-Description: An R client for 'ChromaDB', a vector database for storing and querying
-    embeddings. This package provides a convenient interface to interact with
-    ChromaDB's REST API.
+Description: Client for 'ChromaDB', a vector database for storing and querying embeddings. This package provides a convenient interface to interact with the REST API of 'ChromaDB' <https://docs.trychroma.com>.
 License: MIT + file LICENSE
 URL: https://github.com/cynkra/rchroma
 BugReports: https://github.com/cynkra/rchroma/issues
