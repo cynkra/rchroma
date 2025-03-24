@@ -28,28 +28,8 @@ chroma_docker_run <- function(
 
   if (is_running) {
     cli::cli_alert_warning(
-      "Docker container '",
-      container_name,
-      "' is already running."
+      "Docker container {container_name} is already running."
     )
-    return(invisible(TRUE))
-  }
-
-  exists <- tryCatch(
-    {
-      result <- processx::run(
-        "docker",
-        c("ps", "-a", "-q", "--filter", paste0("name=", container_name)),
-        error_on_status = FALSE
-      )
-      nzchar(result$stdout)
-    },
-    error = function(e) FALSE
-  )
-
-  if (exists) {
-    cli::cli_alert_info("Starting existing container '", container_name, "'...")
-    processx::run("docker", c("start", container_name))
     return(invisible(TRUE))
   }
 
@@ -82,7 +62,7 @@ chroma_docker_run <- function(
   cli::cli_alert_info("Starting new ChromaDB container...")
   result <- processx::run("docker", docker_args, error_on_status = TRUE)
 
-  cli::cli_alert_info("Container {container_name} started successfully.")
+  cli::cli_alert_success("Container {container_name} started successfully.")
   invisible(TRUE)
 }
 
