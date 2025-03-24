@@ -249,3 +249,9 @@ heartbeat <- function(client) {
 get_auth_identity <- function(client) {
   make_request(client$req, "auth/identity")
 }
+
+#' @export
+print.chroma_client <- function(x, ...) {
+  cat("<chromadb connection>")
+  invisible(x)
+}
