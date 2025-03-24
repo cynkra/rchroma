@@ -24,24 +24,7 @@ chroma_docker_run <- function(
   image <- glue::glue("chromadb/chroma:{version}")
   persist_directory <- "/chroma/chroma"
 
-  is_running <- tryCatch(
-    {
-      result <- processx::run(
-        "docker",
-        c(
-          "ps",
-          "-q",
-          "--filter",
-          paste0("name=", container_name),
-          "--filter",
-          "status=running"
-        ),
-        error_on_status = FALSE
-      )
-      nzchar(result$stdout)
-    },
-    error = function(e) FALSE
-  )
+  is_running <- chroma_docker_running(container_name)
 
   if (is_running) {
     cli::cli_alert_warning(
