@@ -17,7 +17,7 @@ reference:
     contents:
       - chroma_docker_run
       - chroma_docker_running
-      - chroma_docker_status
+      - chroma_docker_stop
       - chroma_connect
       - version
       - pre_flight_checks
