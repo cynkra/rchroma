@@ -14,7 +14,13 @@ storing and querying embeddings.
 
 ## Installation
 
-You can install rchroma from GitHub:
+You can isntall rchroma from CRAN:
+
+``` r
+install.packages("rchroma")
+```
+
+Or you can install the developer version from GitHub:
 
 ``` r
 # install.packages("remotes")
@@ -22,11 +28,11 @@ remotes::install_github("cynkra/rchroma")
 ```
 
 You also need a running ChromaDB instance. The easiest way to get
-started is using Docker:
+started is using the provided Docker helper functions:
 
-``` bash
-docker pull chromadb/chroma
-docker run -p 8000:8000 chromadb/chroma
+``` r
+chroma_docker_run()
+# use chroma_docker_stop() to stop the container
 ```
 
 See the [ChromaDB
@@ -49,8 +55,8 @@ add_documents(
   documents = c("apple", "banana"),
   ids = c("doc1", "doc2"),
   embeddings = list(
-    c(1.0, 0.0),  # apple
-    c(0.8, 0.2)   # banana (similar to apple)
+    c(1.0, 0.0), # apple
+    c(0.8, 0.2) # banana (similar to apple)
   )
 )
 
@@ -58,7 +64,7 @@ add_documents(
 query(
   client,
   "my_collection",
-  query_embeddings = list(c(1.0, 0.0)),  # should match apple best
+  query_embeddings = list(c(1.0, 0.0)), # should match apple best
   n_results = 2
 )
 ```
