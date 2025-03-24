@@ -154,8 +154,8 @@ chroma_connect <- function(
           "\n\n",
           "To run ChromaDB:\n",
           "1. Install Docker from https://www.docker.com\n",
-          "2. Run ChromaDB using Docker:\n",
-          "   docker run -p 8000:8000 chromadb/chroma\n\n",
+          "2. Run ChromaDB using the Docker helper function:\n",
+          "   chroma_docker_run()\n\n",
           "Original error: ",
           e$message
         )
