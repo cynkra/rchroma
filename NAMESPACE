@@ -2,6 +2,9 @@
 
 export(add_documents)
 export(chroma_connect)
+export(chroma_docker_run)
+export(chroma_docker_running)
+export(chroma_docker_stop)
 export(count_collections)
 export(create_collection)
 export(create_database)
