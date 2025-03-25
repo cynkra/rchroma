@@ -116,7 +116,7 @@ chroma_docker_stop <- function(container_name = "chromadb") {
     processx::run("docker", c("stop", container_name), error_on_status = TRUE)
     cli::cli_alert_success("Container {container_name} has been stopped.")
   } else {
-    cli::cli_alert_warning("{conainter_name} not running.")
+    cli::cli_alert_warning("{container_name} not running.")
   }
   invisible(TRUE)
 }
