@@ -1,3 +1,17 @@
+docker_available <- function() {
+  docker_check <- system(
+    "docker --version",
+    intern = TRUE,
+    ignore.stderr = TRUE
+  )
+
+  # Check if there's a result
+  if (length(docker_check) == 0) {
+    cli::cli_abort(
+      "docker is not available. Please install it or adjust your PATH."
+    )
+  }
+}
 #' Start ChromaDB Docker Container
 #'
 #' This function uses Docker to start a ChromaDB server container in the background.
@@ -20,6 +34,7 @@ chroma_docker_run <- function(
   version = "0.6.3",
   container_name = "chromadb"
 ) {
+  docker_available()
   port <- glue::glue("{port}:{port}")
   image <- glue::glue("chromadb/chroma:{version}")
   persist_directory <- "/chroma/chroma"
@@ -75,6 +90,7 @@ chroma_docker_run <- function(
 #' @return TRUE if container is running and FALSE otherwise.
 #' @export
 chroma_docker_running <- function(container_name = "chromadb") {
+  docker_available()
   running_result <- tryCatch(
     {
       result <- processx::run(
@@ -112,6 +128,7 @@ chroma_docker_running <- function(container_name = "chromadb") {
 #' @export
 
 chroma_docker_stop <- function(container_name = "chromadb") {
+  docker_available()
   if (chroma_docker_running(container_name)) {
     processx::run("docker", c("stop", container_name), error_on_status = TRUE)
     cli::cli_alert_success("Container {container_name} has been stopped.")
