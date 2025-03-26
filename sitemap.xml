@@ -9,6 +9,9 @@
 <url><loc>https://cynkra.github.io/rchroma/news/index.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/add_documents.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/chroma_connect.html</loc></url>
+<url><loc>https://cynkra.github.io/rchroma/reference/chroma_docker_run.html</loc></url>
+<url><loc>https://cynkra.github.io/rchroma/reference/chroma_docker_running.html</loc></url>
+<url><loc>https://cynkra.github.io/rchroma/reference/chroma_docker_stop.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/count_collections.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/create_collection.html</loc></url>
 <url><loc>https://cynkra.github.io/rchroma/reference/create_database.html</loc></url>
