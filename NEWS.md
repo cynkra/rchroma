@@ -1,6 +1,6 @@
-# rchroma 0.1.0.9000
+# rchroma 0.2.0
 
-* added docker functions
+* added docker convenience functions
 
 # rchroma 0.1.0
 

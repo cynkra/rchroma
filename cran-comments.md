@@ -1,10 +1,7 @@
-## Resubmission of the initial submission
+## Update from 0.1.0 to 0.2.0
 
-* Added link to DESCRIPTION
-* Added single quotes around ChromaDB
+* added docker convenience functions
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* This is a new release.
+0 errors | 0 warnings | 0 note
