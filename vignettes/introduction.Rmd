@@ -18,22 +18,14 @@ knitr::opts_chunk$set(
 
 The rchroma package provides an R interface to ChromaDB, a vector database for storing and querying embeddings. This vignette demonstrates the basic usage of the package.
 
-## Installation
-
-You can install the development version of rchroma from GitHub:
-
-```{r eval=FALSE}
-# install.packages("remotes")
-remotes::install_github("cynkra/rchroma")
-```
-
-## Installing ChromaDB
+## Running ChromaDB
 
 Before using rchroma, you need to have a running ChromaDB instance. The easiest way to get started is using Docker:
+The easiest way to get started is using the provided Docker helper functions:
 
-```bash
-docker pull chromadb/chroma
-docker run -p 8000:8000 chromadb/chroma
+```{r eval = FALSE}
+chroma_docker_run()
+# use chroma_docker_stop() to stop the container
 ```
 
 This will start a ChromaDB server on `http://localhost:8000`.
@@ -84,9 +76,9 @@ docs <- c(
   "carrot vegetable"
 )
 embeddings <- list(
-  c(1.0, 0.0, 0.0),  # apple
-  c(0.8, 0.2, 0.0),  # banana (similar to apple)
-  c(0.0, 0.0, 1.0)   # carrot (different)
+  c(1.0, 0.0, 0.0), # apple
+  c(0.8, 0.2, 0.0), # banana (similar to apple)
+  c(0.0, 0.0, 1.0) # carrot (different)
 )
 
 # Add documents to the collection
@@ -102,7 +94,7 @@ add_documents(
 results <- query(
   client,
   "my_collection",
-  query_embeddings = list(c(1.0, 0.0, 0.0)),  # should match apple best
+  query_embeddings = list(c(1.0, 0.0, 0.0)), # should match apple best
   n_results = 2
 )
 ```
@@ -117,9 +109,9 @@ update_documents(
   client,
   "my_collection",
   ids = "doc1",
-  embeddings = list(c(0.9, 0.1, 0.0))  # slightly different from original apple
+  embeddings = list(c(0.9, 0.1, 0.0)) # slightly different from original apple
 )
 
 # Delete documents
-delete_documents(client, "my_collection", ids = "doc2")  # removes banana
+delete_documents(client, "my_collection", ids = "doc2") # removes banana
 ```
