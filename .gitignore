@@ -7,3 +7,6 @@ inst/doc
 ..Rcheck
 README.html
 chroma/
+*.duckdb
+*.duckdb.wal
+ragnar_bench.R
