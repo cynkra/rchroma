@@ -46,7 +46,7 @@ create_collection <- function(
       }
       body$configuration <- list(
         hnsw_configuration = list(
-          space = configuration$hnsw_space,
+          space = configuration$hnsw,
           `_type` = "HNSWConfigurationInternal"
         ),
         `_type` = "CollectionConfigurationInternal"
